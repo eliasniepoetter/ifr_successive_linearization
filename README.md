@@ -28,3 +28,9 @@ $x_1$, namely $\dot{x_1} = x_2 + u_1$. This modification allows it to move the o
 resp. the equlibrium to any point in the state space. However, one drawback is now that the equilbrium
 states for $x_1$ and $x_2$ are coupled. Furthermore, if one takes the steady state input $u_{2}^{\star}$ as 
 a parameter, the equilibrium undegoes a bifurcation.
+
+## Analysis of the error dynamics
+
+
+
+
