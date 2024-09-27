@@ -1,11 +1,12 @@
-%% Summary
-% more detailed analytical analysis of the linearization error dyanmics of the VdP
-% the linearization point is in this analysis the independet variable
+%% Description
+% More detailed analytical analysis of the linearization error dyanmics of the VdP.
+% The linearization point is in this analysis the independet variable.
 
 clear;
 close all;
 clc;
 
+% Define symbolic variables
 syms x1_l_sym x2_l_sym u_l_sym x1_sym x2_sym u_sym
 x_l_sym = [x1_l_sym; x2_l_sym];
 x_sym = [x1_sym; x2_sym];
@@ -15,6 +16,7 @@ mu = 0.5;
 f_sym = [x2_sym;
     mu*(1 - x1_sym^2)*x2_sym - x1_sym + u_sym];
 
+% symbolic VdP with linearization point (setpoint dynamics)
 f_l_sym = [x2_l_sym;
     mu*(1 - x1_l_sym^2)*x2_l_sym - x1_l_sym + u_l_sym];
 
@@ -22,21 +24,28 @@ f_l_sym = [x2_l_sym;
 grad_f_x_sym = jacobian(f_sym, x_sym);
 grad_f_u_sym = jacobian(f_sym, u_sym);
 
+% linearization of the VdP
 f_linearized_sym = subs(grad_f_x_sym,x_sym,x_l_sym)*(x_sym-x_l_sym) + subs(grad_f_u_sym,u_sym,u_l_sym)*(u_sym-u_l_sym) + f_l_sym;
+
+% gradient of the linearized VdP
 grad_f_linearized_x_l_sym = jacobian(f_linearized_sym, x_l_sym);
 
+% gradient of the linearization error of the VdP (analytical solution)
 grad_e_x_l_sym = -grad_f_linearized_x_l_sym;
 
+% evaluation point and input
 x = [-6;9];
 u = 0;
+
+% evaluation of the gradient of the linearization error
 grad_e_x_l_sym = subs(grad_e_x_l_sym,[x_sym;u_sym],[x;u]);
 
+% linearization error dynamics
 e_sym = f_sym - f_linearized_sym;
 e_sym = subs(e_sym,[x_sym;u_sym;u_l_sym],[x;u;0]);
 
 
 % Visualization
-
 figure;
 tl = tiledlayout(2,2);
 title(tl,['Gradient of the linearization error evaluated at [',num2str(x(1)),',',num2str(x(2)),']'], ...

@@ -29,7 +29,21 @@ resp. the equlibrium to any point in the state space. However, one drawback is n
 states for $x_1$ and $x_2$ are coupled. Furthermore, if one takes the steady state input $u_{2}^{\star}$ as 
 a parameter, the equilibrium undegoes a bifurcation.
 
-## Analysis of the error dynamics
+## Analysis of the linearization error dynamics
+The error_dyanmics_linearization_point.m script visualizes the error dynamics $e(x,u)$ for the Van der Pol.
+The analytically computed results of the gradient of the linearization error is visualized as well.
+On this basis, the linearization_error_optimization.m script implements an optimization routine
+which searches for a setpoint with minimal linearization error (evaluated at the current state) while 
+simultaneously ensuring an equilibrium at the new setpoint through a nonlinear constraint.
+
+
+
+
+
+
+
+
+
 
 
 

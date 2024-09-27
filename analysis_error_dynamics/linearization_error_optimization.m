@@ -1,22 +1,29 @@
-%% Summary
+%% Description
 % Examplary Optimization Routine for the modified VdP
-% The cost function is the L2 norm of the linearization error dynamics
+% The cost function is the L2 norm of the linearization error dynamics (+ regulation)
 % Additionally a nonlinear constraint is added to enforce an equlibrium at the optmimized linearization point
 
 clear;
 close all;
 clc;
 
+% Define symbolic variables
 syms x1_l x2_l u1_l u2_l x1 x2 u1 u2
 x_l_sym = [x1_l;x2_l];
 u_l_sym = [u1_l;u2_l];
 x_sym = [x1;x2];
 u_sym = [u1;u2];
 
+% Define evaluation point
+% NOTE: this point alreay has to satisfy the equilibrium constraints,
+% that's why this specific point has to be determined graphically at the
+% moment with the bifurcation diagram from the script
+% operating_point_modified_VdP.m
 x_eval = [2;-1];
 u_eval = [1;-1];
 mu = 1;
 
+% Analogue to operating_point_modified_VdP.m
 f_sym = [x2+u1;
     mu*(1 - x1^2)*x2 - x1 + u2];
 
@@ -27,17 +34,22 @@ f_linearized_sym = subs(grad_f_x_sym,x_sym,x_l_sym)*(x_sym-x_l_sym) + subs(grad_
 
 e_sym = f_sym - f_linearized_sym;
 e_sym = subs(e_sym,x_sym,x_eval);
+
+% The cost function includes quadratic costs of the linearization point and
+% the steady state input to benefit a descent direction for the optimized
+% setpoint
 cost_function_sym = norm(e_sym,2) + norm(x_l_sym,2) + norm(u_l_sym,2);
 
 % x is denoting the optmimzation variables --> [x1_l; x2_l; u1_l; u2_l]
 cost_function = @(x) double(subs(cost_function_sym,[x1_l;x2_l;u1_l;u2_l],x));
 
+% Setup of fmincon and solver call
 options = optimoptions('fmincon','Display','iter-detailed','Algorithm','interior-point');
 [xopt,fval,exitflag] = fmincon(cost_function,[x_eval-[1;1];u_eval-[0.5;0.5]],[],[],[],[],[],[],@(x)nonlcon(x,mu),options);
 
-
+% Visualization
 grid_val = 3;
-grid_step = 0.25;
+grid_step = 0.25; % NOTE: O(n^4)!!! (will take some time)
 
 x1_grid = -grid_val:grid_step:grid_val;
 x2_grid = -grid_val:grid_step:grid_val;
@@ -62,24 +74,16 @@ for i = 1:n
 end
 close(wb);
 
-%%
-
-
-
 c = costs(:,:,5,12);
 [X1_2D, X2_2D] = meshgrid(x1_grid, x2_grid);
 [X1_res, X2_res] = meshgrid(-3:0.01:3, -3:0.01:3);
 vq = griddata(X1_2D(:),X2_2D(:),c(:),X1_res, X2_res,'v4');
-
-%%
 
 u1_select = xopt(3);
 u2_select = xopt(4);
 figure;
 hold on;
 grid on;
-% F_slice = costs(:,:,2, 1);
-% surf(X1_2D, X2_2D, F_slice);
 contour(X1_res,X2_res,vq,'LevelStep',1);
 fcontour(@(xx,yy)yy+u1_select,[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black');
 fcontour(@(xx,yy)u2_select - xx - yy.*(xx.^2 - 1),[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black');
