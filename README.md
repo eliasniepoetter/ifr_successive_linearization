@@ -20,7 +20,7 @@ Contact: eliasniepoetter@gmail.com
 ## Analysis of the Operating Point of Van der Pol
 These scripts demonstrate the classic design of a controller around an operating point.
 The operating point is in general not an equilibrium. Therefore the equilirbium equations are
-solved for a steady state input $u^{\star}$, which enables the shift of the equlibrium to (any) selected
+solved for a steady state input $u^{*}$, which enables the shift of the equlibrium to (any) selected
 operating point. For the "classic" Van der Pol with only one input, the operating point
 is tight to the $x_1$ axis because full state tracking would require as many inputs as states.
 The "modified" Van der Pol in the example presendet has an additional input for the ODE of 
