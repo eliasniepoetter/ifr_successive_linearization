@@ -5,4 +5,4 @@ of the linearization error dynamics.
 Contact: eliasniepoetter@gmail.com
 
 ## Overview
-- 
+- Analysis Operating Point VdP
