@@ -1,4 +1,4 @@
-%% Summary
+%% Description
 % Operating Point compution for the classic VdP
 % Compensation of the dynamics at the operating point
 
@@ -10,16 +10,21 @@ clc;
 tend = 100;
 dt = 0.001;
 
-% initial state & parameters
+% initial state & parameters for the simulation
 x0 = [6;1.5];
 mu = 1;
-u_bar = 5;
+
+% the equlibrium with a stady state input u_bar is exactly at x_star = [u_bar,0]
+% disadvantage: operating point / setpoint constrained to x2 = 0
+u_star = 5;
 
 % controller design
-A = [0,1;-1,mu*(1-u_bar^2)];
+% analytical solution for A and B are parametrized
+A = [0,1;-1,mu*(1-u_star^2)];
 B = [0;1];
 K = lqr(A,B,eye(1)*1,1);
 
+% check controllability via Kalman criteria
 if rank([B, A*B]) == 2
     disp('linearized system is controllable!');
 else
@@ -32,10 +37,13 @@ sim.states = zeros(2,length(0:dt:tend)-1);
 sim.states(:,1) = x0;
 sim.input = zeros(1,length(0:dt:tend)-1);
 
+% run the simulation
 for n = 1 : length(0:dt:tend)-1
     x_i = sim.states(:,n);
-    u = u_bar - K*(x_i-[u_bar;0]);
+    % input computation with steady state input added to shift equlibrium
+    u = u_star - K*(x_i-[u_star;0]);
     sim.input = u;
+    % call RK4 integration scheme
     x_ip1 = dynamics_step(x_i,mu,u,dt);
     sim.states(:,n+1) = x_ip1;
 end

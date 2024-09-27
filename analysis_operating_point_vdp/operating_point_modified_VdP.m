@@ -1,4 +1,4 @@
-%% Summary
+%% Description
 % Operating Point compution for the modified VdP
 % Compensation of the dynamics at the operating point
 
@@ -6,25 +6,32 @@ close all;
 clear;
 clc;
 
+% Define symbolic variables
 syms x1_sym x2_sym u1_sym u2_sym
 x_sym = [x1_sym; x2_sym];
 u_sym = [u1_sym; u2_sym];
 mu = 1;
 
+% modified Van der Pol equations
 f_sym = [x2_sym + u1_sym;
     mu*(1 - x1_sym^2)*x2_sym - x1_sym + u2_sym];
 
+% equilirbium equations
 eq1 = f_sym(1) == 0;
 eq2 = f_sym(2) == 0;
 
+% analytical symbolic  solutions of the equlibrium equations
 equilibrium_x2 = solve(eq1,x2_sym);
 equilibrium_x1 = solve(eq2,x1_sym);
 
+% select setpoint x2 and compute steady state input u1_star
 setpoint_x2 = -1;
-
 u1_star = double(solve(equilibrium_x2 == setpoint_x2,u1_sym));
+
+% substitue setpoint x2 into equlibrium eq. for x1
 equilibrium_x1 = subs(equilibrium_x1,x2_sym,setpoint_x2);
 
+% Plot the bifurcation diagram of x1 to select setpoint graphically
 figure;
 set(gca,'fontsize', 14);
 hold on;
@@ -34,10 +41,12 @@ ylabel('equlibrium state $x_1^*$','Interpreter','latex');
 xlabel('steady state input $u_2^*$','Interpreter','latex');
 grid on;
 
+% examplary setpoint x1 and stedy state input u2
 setpoint_x1 = 2;%-1
 u2_star = -1;
 
 %% Simulation of the modified Van der Pol Oscillator
+% analogue to classic VdP with one more input
 
 % simulation time and steps
 tend = 100;
