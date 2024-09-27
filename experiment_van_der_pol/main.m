@@ -1,18 +1,14 @@
-%% Summary
+%% Description
 % Main simulation of the successive linearization framework for the classic
 % VdP with naive setpoint selection (no compensation of the setpoint dynamics)
-
-
 
 close all;
 clear;
 clc;
 
-
 % simulation time and steps
 tend = 100;
 dt = 0.01;
-
 
 % allocation of arrays
 valid_return_memory = cell(1,100);
@@ -23,9 +19,8 @@ x_memory = zeros(2,length(0:dt:tend));
 x_memory_openloop = zeros(2,length(0:dt:tend));
 setpoint_memory = zeros(2,length(0:dt:tend));
 
-
 % initial state & parameters
-x0 = [-8;-9];                                                                     % initial state
+x0 = [-8;-9];                                                                   % initial state
 x_memory(:,1) = x0;
 setpoint0 = [0;0];                                                              % initial setpoint
 setpoint_memory(:,1) = setpoint0;
@@ -46,7 +41,7 @@ for n = 1 : length(0:dt:tend)-1
 
     % Compute setpoint + corresponding linear systems + controller
     if norm(setpoint-x_i) < (0.01)
-        [setpoint,optimization_log] = setpoint_generation_v4(x_i,alpha,mu);          % compute setpoint
+        [setpoint,optimization_log] = setpoint_generation_v4(x_i,alpha,mu);     % compute setpoint
         setpoint_input = 0;
         [A,B,Z] = linearization_scheme(setpoint,mu,setpoint_input);             % compute linearized system for setpoint
                 % replacing setpoint with x_i???
@@ -73,7 +68,6 @@ for n = 1 : length(0:dt:tend)-1
     end
 
     % Compute control input -> state is tracking error
-    %u0 = B\(-Z-A*setpoint);
     u = -K*(x_i-setpoint);                                                      % tracking formulation to enable LQR
     u_memory(n) = u;
 
@@ -163,10 +157,8 @@ set(gca,'fontsize', 14);
     ylabel('$x_2$','Interpreter','latex');
     hold off;
 
-%%
-
 optimization_log_memory = optimization_log_memory(~cellfun('isempty',optimization_log_memory));
-
+if length(optimization_log_memory) <= 10
 figure;
 tiledlayout(2,ceil(length(optimization_log_memory)/2));
 for i = 1 : length(optimization_log_memory)
@@ -182,7 +174,7 @@ for i = 1 : length(optimization_log_memory)
     scatter3(log.x_min(1),log.x_min(2),log.fval,50,'green','filled');
     legend('obective contour','initial','minimum');
 end
-
+end
 
 
 

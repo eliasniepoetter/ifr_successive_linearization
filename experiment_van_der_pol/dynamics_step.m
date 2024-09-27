@@ -1,6 +1,6 @@
 function [x_ip1] = dynamics_step(x_i,mu,u,dt)
 
-% Dynamics
+% Dynamics of the Van der Pol
 f = @(x,u)[
     x(2);
     mu*(1-x(1)^2)*x(2)-x(1)+u;

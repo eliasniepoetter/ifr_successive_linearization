@@ -1,5 +1,7 @@
 function [x_r,valid_return] = setpoint_generation_v1(x_i,alpha)
 
+% earliest implementation: setpoint are all on a straight line point to the
+% origin at [0;0]
 % unitDirection = x_i / norm(x_i);
 % if norm(x_i) > alpha
 %     x_r = x_i-alpha*unitDirection;
@@ -42,14 +44,17 @@ sigma2 = 0.5;
 samples(1,:) = normrnd(x_l(1),sigma1,[1,n_samples]);
 samples(2,:) = normrnd(x_l(2),sigma2,[1,n_samples]);
 
+% linearization error evaluation
 e = zeros(1,n_samples);
 for i = 1 : n_samples
     e(i) = double(subs(error_lipschitz,x,samples(:,i)));
 end
 
+% sort out non-valid samples
 eps = 10;
 valid_samples = samples(:,e<eps);
 
+% search for best sample
 dist = 1e6;
 best_sample = [1000;1000];
 x_t = [0;0];
@@ -61,6 +66,7 @@ for i = 1 : size(valid_samples,2)
     end
 end
 
+% log information
 valid_e = e(e<eps);
 valid_return = [valid_samples;valid_e];
 

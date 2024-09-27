@@ -27,8 +27,6 @@ cost_function_sym = norm(e_sym,2) + norm(x_l_sym,2);
 options = optimoptions('fmincon','Display','off','Algorithm','interior-point','OptimalityTolerance',1e-6);
 search_range = 1;
 
-%@(x)con(x,x_i)
-
 tic;
 [optimized_setpoint,fval,exitflag] = fmincon(cost_function,x_i,[],[],[],[], ...
     [], ...

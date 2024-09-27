@@ -36,8 +36,13 @@ On this basis, the linearization_error_optimization.m script implements an optim
 which searches for a setpoint with minimal linearization error (evaluated at the current state) while 
 simultaneously ensuring an equilibrium at the new setpoint through a nonlinear constraint.
 
-
-
+## Numerical Experiment: Successive Control of the Van der Pol 
+The experiment performs a full simulation of the "classic" Van der Pol, controlled with a successive linearization and control
+design. In this example, the operating point computation is not done fully correctly, which means that the affine dynamics
+are simply dropped for simplicity. The user can select two different strategies for the setpoint generation.
+- v1 and v2: no valid strategies to determine the setpoints
+- v3: sampling based approach
+- v4: optimization based approach
 
 
 
