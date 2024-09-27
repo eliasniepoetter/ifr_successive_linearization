@@ -21,4 +21,5 @@ Contact: eliasniepoetter@gmail.com
 These scripts demonstrate the classic design of a controller around an operating point.
 The operating point is in general not an equilibrium. Therefore the equilirbium equations are
 solved for a steady state input, which enables the shift of the equlibrium to (any) selected
-operating point. 
+operating point. For the "classic" Van der Pol with only one input, the operating point
+is tight to the $x1$ axis.
