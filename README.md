@@ -1,6 +1,7 @@
 # IFR Successive Linearization
-This repository contains work of my research assistant job at the IFR of the University of Stuttgart. The research is about successive linearization and the analysis resp. utilization
-of the linearization error dynamics.
+This repository contains work of my research assistant job at the IFR of the University of Stuttgart. The research is 
+about successive linearization and the analysis resp. utilization of the linearization error dynamics. For more details 
+about the basic setup of the work in this repository it is recommended to read the notes in the material folder.
 
 Contact: eliasniepoetter@gmail.com
 
