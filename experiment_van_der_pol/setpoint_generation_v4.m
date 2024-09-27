@@ -16,7 +16,7 @@ f_l_sym = [x2_l_sym;
 grad_f_x_sym = jacobian(f_sym, x_sym);
 grad_f_u_sym = jacobian(f_sym, u_sym);
 
-f_linearized_sym = subs(grad_f_x_sym,x_sym,x_l_sym)*x_sym + subs(grad_f_u_sym,u_sym,u_l_sym)*u_sym + f_l_sym;
+f_linearized_sym = subs(grad_f_x_sym,x_sym,x_l_sym)*(x_sym-x_l_sym) + subs(grad_f_u_sym,u_sym,u_l_sym)*(u_sym-u_l_sym) + f_l_sym;
 
 e_sym = f_sym - f_linearized_sym;
 e_sym = subs(e_sym,[x_sym;u_sym;u_l_sym],[x_eval;u_eval;0]);
