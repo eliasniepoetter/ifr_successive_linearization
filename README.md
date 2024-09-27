@@ -6,7 +6,7 @@ Contact: eliasniepoetter@gmail.com
 
 ## Overview
 **analysis_operating_point_vdp**:
-- operating_point_classic_vdp.m: perform standard operating point/setpoint computation
+- `operating_point_classic_vdp.m`: perform standard operating point/setpoint computation
 - operating_point_modified_vdp.m: perform operating point/setpoint computation for a modified Van der Pol
 
 **analysis_error_dynamics**:
