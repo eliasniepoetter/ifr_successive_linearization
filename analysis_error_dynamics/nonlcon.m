@@ -1,6 +1,6 @@
 function [c,ceq] = nonlcon(x,mu)
 
-    % Variable:
+    % variable:
     % x = [x1_l; x2_l; u1_l; u2_l]
 
     % inequality constraints

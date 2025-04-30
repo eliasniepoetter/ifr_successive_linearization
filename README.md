@@ -18,20 +18,24 @@ Contact: eliasniepoetter@gmail.com
 - the `main.m` performs a full simulation with successive linearization control scheme
 - the user can select different setpoint generation methods
 
+**freedom_of_trajectory**:
+- `duffing_sequential`: sequential LQR control of the duffing oscillator, analogue to the van der pol experiment
+- `duffing_terminal_region`: analysis of the terminal region estimated with a procedure described in [1]
+
 ## Analysis of the Operating Point of Van der Pol
 These scripts demonstrate the classic design of a controller around an operating point.
 The operating point is in general not an equilibrium. Therefore the equilibrium equations are
 solved for a steady state input $u^{\star}$, which enables the shift of the equilibrium to (any) selected
 operating point. For the "classic" Van der Pol with only one input, the operating point
 is tight to the $x_1$ axis because full state tracking would require as many inputs as states.
-The "modified" Van der Pol in the example presendet has an additional input for the ODE of 
+The "modified" Van der Pol in the example presented has an additional input for the ODE of 
 $x_1$, namely $\dot{x_1} = x_2 + u_1$. This modification allows it to move the operating point
 resp. the equilibrium to any point in the state space. However, one drawback is now that the equilibrium
 states for $x_1$ and $x_2$ are coupled. Furthermore, if one takes the steady state input $u_{2}^{\star}$ as 
 a parameter, the equilibrium undergoes a bifurcation.
 
 ## Analysis of the linearization error dynamics
-The error_dyanmics_linearization_point.m script visualizes the error dynamics $e(x,u)$ for the Van der Pol.
+The error_dynamics_linearization_point.m script visualizes the error dynamics $e(x,u)$ for the Van der Pol.
 The analytically computed results of the gradient of the linearization error are visualized as well.
 On this basis, the linearization_error_optimization.m script implements an optimization routine
 which searches for a setpoint with minimal linearization error (evaluated at the current state) while 
@@ -45,12 +49,10 @@ are simply dropped for simplicity. The user can select two different strategies 
 - v3: sampling-based approach
 - v4: optimization based approach
 
+## Freedom of Trajectory
+The goal is to unify all investigations to a single framework, namely the freedom of trajectory. This work is still in progress.
+More details can be found in the material's folder.
 
-
-
-
-
-
-
-
+## References
+[1] J. Köhler, M. A. Müller, und F. Allgöwer, „A nonlinear model predictive control framework using reference generic terminal ingredients -- extended version“, IEEE Trans. Automat. Contr., Bd. 65, Nr. 8, S. 3576–3583, Aug. 2020, doi: 10.1109/TAC.2019.2949350.
 

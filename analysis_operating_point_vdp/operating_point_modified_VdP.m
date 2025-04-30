@@ -35,7 +35,7 @@ equilibrium_x1 = subs(equilibrium_x1,x2_sym,setpoint_x2);
 figure;
 set(gca,'fontsize', 14);
 hold on;
-fplot(equilibrium_x1,'LineWidth',1.25);
+fplot(equilibrium_x1,'LineWidth',1.25,'Color',[0 0 0]);
 title('Bifurcation Diagram of the modified Van der Pol with $x_2^*=-1$ fixed','Interpreter','latex');
 ylabel('equlibrium state $x_1^*$','Interpreter','latex');
 xlabel('steady state input $u_2^*$','Interpreter','latex');

@@ -49,7 +49,7 @@ options = optimoptions('fmincon','Display','iter-detailed','Algorithm','interior
 
 % Visualization
 grid_val = 3;
-grid_step = 0.25; % NOTE: O(n^4)!!! (will take some time)
+grid_step = 0.5; % NOTE: O(n^4)!!! (will take some time)
 
 x1_grid = -grid_val:grid_step:grid_val;
 x2_grid = -grid_val:grid_step:grid_val;
@@ -76,20 +76,27 @@ close(wb);
 
 c = costs(:,:,5,12);
 [X1_2D, X2_2D] = meshgrid(x1_grid, x2_grid);
-[X1_res, X2_res] = meshgrid(-3:0.01:3, -3:0.01:3);
+[X1_res, X2_res] = meshgrid(-3:0.1:3, -3:0.1:3);
 vq = griddata(X1_2D(:),X2_2D(:),c(:),X1_res, X2_res,'v4');
-
 u1_select = xopt(3);
 u2_select = xopt(4);
+
 figure;
 hold on;
 grid on;
-contour(X1_res,X2_res,vq,'LevelStep',1);
-fcontour(@(xx,yy)yy+u1_select,[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black');
-fcontour(@(xx,yy)u2_select - xx - yy.*(xx.^2 - 1),[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black');
-scatter(xopt(1),xopt(2),80,'black','filled','diamond');
-scatter(x_eval(1),x_eval(2),80,'black','filled','o');
-axis equal;
+contour(X1_res,X2_res,vq,'LevelStep',1,'DisplayName','cost function');
+% surf(X1_res,X2_res,vq,'DisplayName','cost function');
+fcontour(@(xx,yy)yy+u1_select,[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black', ...
+    'DisplayName','equlibrium constraint $x_1$','LineStyle','--');
+fcontour(@(xx,yy)u2_select - xx - yy.*(xx.^2 - 1),[-3 3 -3 3],'LevelList',0,'LineWidth',1.25,'LineColor','black', ...
+    'DisplayName','equlibrium constraint $x_2$','LineStyle','-.');
+scatter(xopt(1),xopt(2),80,'black','filled','diamond','DisplayName','optimal linearization point');
+scatter(x_eval(1),x_eval(2),80,'black','filled','o','DisplayName','initial point');
+title('Constrained Optimization of the linearization point','Interpreter','latex','FontSize',14);
+xlabel('$x_{l1}$','interpreter','latex','FontSize',14);
+ylabel('$x_{l2}$','interpreter','latex','FontSize',14);
+legend('interpreter','latex','FontSize',14,'Location','northeastoutside');
+% axis equal;
 
 
 
